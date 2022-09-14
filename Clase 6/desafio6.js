@@ -54,7 +54,7 @@ class Contenedor {
 
         try {
             const contenido = await fs.promises.readFile("./productos2.txt", "utf-8");
-            console.log(contenido);
+          
 
             return JSON.parse(contenido)
         } catch (error) {}
@@ -66,7 +66,6 @@ class Contenedor {
         const contenido = await this.getAll();
 
         const buscandoProducto = contenido.filter((productos) => productos.id == id);
-        console.log(buscandoProducto);
     }
 
    
