@@ -1,0 +1,22 @@
+[
+  {
+    "nombre": "Frutilla",
+    "descripcion": "frutillas grandes rojas",
+    "codigo": 11223,
+    "stock": 1234,
+    "precio": 100,
+    "img": "https://jumboargentina.vtexassets.com/arquivos/ids/421110/Frutilla-Por-Kg-1-10917.jpg?v=636481016510630000",
+    "id": 1,
+    "timeStamp": 1665161673604
+  },
+  {
+    "nombre": "Frutilla",
+    "descripcion": "frutillas grandes rojas",
+    "codigo": 11223,
+    "stock": 1234,
+    "precio": 100,
+    "img": "https://jumboargentina.vtexassets.com/arquivos/ids/421110/Frutilla-Por-Kg-1-10917.jpg?v=636481016510630000",
+    "id": 2,
+    "timeStamp": 1665161757446
+  }
+]

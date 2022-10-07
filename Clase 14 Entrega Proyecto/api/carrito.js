@@ -52,12 +52,7 @@ class Carrito{
             console.log ("Se ha creado un carrito")
             return carr;
         } catch (err){
-            await this.creandoCarrito([]);
-            const contenido = await this.getAllCarrito();
-            const carr = {id: this.id++, timeStamp: Date.now(), productos: []};
-            contenido.push(carr);
-            await this.creandoCarrito(contenido);
-            return carr;
+            console.log("hubo un problema")
         }
     }
 
@@ -122,17 +117,8 @@ module.exports = { Carrito };
 
 
 
-const carritoN ={ 
-    productos: {
-    
-        "nombre": "Frutilla",
-        "descripcion": "frutillas grandes rojas",
-        "codigo": 11223,
-        "stock": 1234,
-        "precio": 100,
-        "img": "https://jumboargentina.vtexassets.com/arquivos/ids/421110/Frutilla-Por-Kg-1-10917.jpg?v=636481016510630000"
-      
-}
+const carritoN = {
+    producto: "frutilla"
 }
     
    
