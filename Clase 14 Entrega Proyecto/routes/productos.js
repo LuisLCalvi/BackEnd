@@ -13,108 +13,35 @@ function validarAdmin (req, res, next){
         res.send ("usted no tiene acceso");
     }};
 
-    routerP.get("/", async (req,res, next) =>{
-        try{
-            const product = await producto.getAll();
-            res.status(200).json(product);
-        } catch(error){
-            next(error)
-        }
+    routerP.get("/", async (req,res) =>{
+        producto.getAll().then(listaProductos => {
+            res.send(listaProductos);
+            })
     });
 
-    routerP.get("/:id", async (req, res, next) =>{
-        try{
-            if (!Number.isNaN(req.params.id)){
-                const product = await producto.getById(
-                    Number(req.params.id)
-                );
-                res.status(200).json(
-                    product ?? {error: "producto no encontrado"}
-                );
-            } else{
-                res.status(400).json ({ error: "parametro incorrecto"});
-            }
-
-        }catch(error){
-            next(error)
-        }
+    routerP.get("/:id", async (req, res) =>{
+        const productoBuscado = Number(req.params.id);
+        const cont = await producto.getById(productoBuscado);
+        res.send(cont);
     });
 
-    routerP.post("/", validarAdmin, async (req, res, next) =>{
-        try{
-            if (
-                req.body.nombre &&
-                !Number.isNaN(req.body.precio) &&
-                req.body.codigo &&
-                !Number.isNaN(req.body.stock)){
-                    const product = await producto.save(req.body);
-                    res.status(200).json(
-                        product ?? {error: "no se pudo registrar el produto"}
-                    );
-                } else{
-                    res.status(400).json({
-                        error: "no se pudo registrar el producto, por favor verifique el objeto enviado",
-                    });
-                }
-        }catch(error){
-            next(error);
-        }
+    routerP.post("/", validarAdmin, async (req, res) =>{
+        console.log(req.body);
+        producto.save(req.body).then(productoCreado =>{
+            res.send(productoCreado)
+        })
     });
 
-    routerP.put("/:id", validarAdmin, async (req, res, next) =>{
-        try{
-            if(
-                req.body.nombre &&
-                !Number.isNaN(req.body.precio) &&
-                req.body.codigo &&
-                !Number.isNaN(req.body.stock)
-
-            ){
-                let {nombre, descripcion, codigo, img, precio, stock } = req.body;
-
-                const product = await producto.update(
-                    Number(req.params.id),
-                    {
-                        nombre,
-                        descripcion,
-                        codigo,
-                        img,
-                        precio,
-                        stock,
-
-                    }
-                );
-                res.status(200).json(
-                    product ?? { error: "no se pudo actualizar el producto"}
-                );
-            } else {
-                res.status(400).json({
-                    error: "no se pudo actualizar el producto, por favor verifique el objeto enviado",
-                });
-
-            }
-        }catch(error){
-            next(error);
-        }
+    routerP.put("/:id", validarAdmin, async (req, res) =>{
+        const {nombre, descripcion, codigo, img, precio, stock, timeStamp} = req.body;
+        const id = await producto.put(Number(req.params.id), {nombre, descripcion, codigo, img, precio, stock, timeStamp});
+        res.json(id)
+       
     });
 
-    routerP.delete(":/id", validarAdmin, async (req, res, next) =>{
-        try{
-            if (!Number.isNaN(req.params.id)){
-                const resultado = await producto.delete(Number(req.params.id));
-                res.status(200).json (
-                    resultado !== null
-                    ?{ mensaje: `se elimino el producto con el id: ${resultado}`}
-                    : { error: "producto no fue encontrado"}
-                );
-            } else {
-                res.status(400).json ({
-                    error: "el parametro enviado no es un numero",
-                });
-            }
-        }catch(error){
-            next(error);
-        }
+    routerP.delete(":/id", validarAdmin, async (req, res) =>{
+        const productoBorrado = await producto.deleteById(req.params.id);
+        res.send(productoBorrado);
     });
 
     module.exports = { routerP };
