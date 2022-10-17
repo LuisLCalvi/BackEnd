@@ -1,15 +1,21 @@
 
 const socket = io.connect();
+const {Productos} = require ("../../productos")
+const {Mensajes} = require ("../../mensajes");
+
+
+const productos = new Productos()
+const mensajes = new Mensajes()
 
 socket.on("mensajes", (data) =>{
     render(data);
-
+   
 });
 
 function render(data){
     const html = data.map((elemento)=>{
         return `<div>
-                <strong style= 'color: blue'>${elemento.usuario}</strong>: ${showTime()}
+                <strong style= 'color: blue'>${elemento.usuario}</strong>:
                 <em style= 'color: green', 'fontFamily: italic'>${elemento.texto}</em></div>
         `;
     })
@@ -18,19 +24,19 @@ function render(data){
     document.getElementById("messages").innerHTML = html;
 }
 
-function addMensaje(e){
+function agregandoMensaje(e){
     const message = {
         usuario: document.getElementById('email').value,
         texto: document.getElementById('texto').value,
     }
 
-    socket.emit('new-mensaje', message)
+    socket.emit("mensajes", mensajes.save(message))
     return false;
 }
 
 
 
-socket.on("productos", (dato) =>{
+socket.on("getproductos", (dato) =>{
     renderizando(dato);
 
 });
@@ -42,7 +48,7 @@ function renderizando(dato){
 
                 
                 <thead > <tr> <th>Nombre</th> <th>Precio</th> <th>Foto</th></tr></thead>
-                <tbody > <tr> <td>${elementos.title}</td> <td>${elementos.price}</td> <td><img width="50" src=${elementos.thumbnail} alt="not found"></td> </tr></tbody>
+                <tbody > <tr> <td>${elementos.nombre}</td> <td>${elementos.precio}</td> <td><img width="50" src=${elementos.imagen} alt="not found"></td> </tr></tbody>
                     </table>
                 
                
@@ -57,20 +63,12 @@ function renderizando(dato){
 
 function addProductos(e){
     const product = {
-        title: document.getElementById('title').value,
-        price: document.getElementById('price').value,
-        thumbnail: document.getElementById('thumbnail').value,
+       nombre: document.getElementById('nombre').value,
+        precio: document.getElementById('precio').value,
+        imagen: document.getElementById('imagen').value,
     }
 
-    socket.emit('new-producto', product)
-    return false;
+    socket.emit("getproductos", product)
 }
 
-function showTime(){
-    myDate = new Date();
-    hours = myDate.getHours();
-    minutes = myDate.getMinutes();
-    seconds = myDate.getSeconds();}
 
-
-  

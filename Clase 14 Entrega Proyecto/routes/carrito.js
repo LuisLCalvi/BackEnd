@@ -8,23 +8,25 @@ const carrito = new Carrito();
 
 
 routerC.get("/:id/productos", async (req, res) =>{
-    carrito.getAllCarrito().then(listaCarritos =>{
+    carrito.listarAll().then(listaCarritos =>{
         res.send (listaCarritos)
     });
 });
 
 routerC.post("/", async (req, res) =>{
-    const carritoCreado = await carrito.agregandoCarrito();
+    const carritoCreado = await carrito.crearCarrito();
     res.send(carritoCreado);
     
 });
 
 routerC.delete("/:id", async (req, res) =>{
-   const carritoBorrado = await carrito.deleteByIdCarrito(req.params.id);
+   const carritoBorrado =  await carrito.listar(req.params.id);
    res.send(carritoBorrado);
 });
 
 routerC.post("/:id/productos", async (req, res) =>{
+    carrito.listar().then(listaCarritos =>{
+        res.send (listaCarritos)
    
 });
 
