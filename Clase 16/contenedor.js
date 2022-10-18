@@ -1,25 +1,26 @@
 class Contenedor{
-    constructor(tabla,config){
-        this.knex = require ("knex")(config);
-        this.tabla = tabla;
+    constructor(table, knex){
+        this.db = require("knex")(knex);
+        this.table = table;
     }
 
-    async save (objetoAGuardar){
-        try{
-            return await this.knex(this.tabla).insert(objetoAGuardar)
-        }catch(err){
-            console.log(err)
+    async addProduct(prod){
+        try {
+            return await this.db(this.table).insert(prod)
+        } catch (error) {
+            throw error;
         }
     }
 
-    async getAll(){
-        try{
-            let datosGuardados = await this.knex.select('*').from(this.tabla);
-            return datosGuardados ?? null;
-        } catch (err){
-            console.log (err)
+    async getAll() {
+        try {
+            return await this.db.from(this.table).select("*")
+    
+        } catch (error) {
+            throw error;
         }
-    }
+    
+    }    
 }
 
 module.exports = { Contenedor}

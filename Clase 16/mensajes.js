@@ -1,17 +1,26 @@
-const { Contenedor } = require("./contenedor")
-const {optionSqlite} = require ("./DB/ecommerce");
+
 
 class Mensajes {
-    constructor (){
-        this.bd = new Contenedor("mensajes", optionSqlite);
+    constructor(table, knex){
+        this.db = require("knex")(knex);
+        this.table = table;
     }
 
     async getAll(){
-        return await this.bd.getAll();
+        try{
+            return await this.db.from(this.table).select("*")
+        }catch(err){
+            throw err
+        }
     }
 
-    async save(mensaje){
-        return await this.bd.save(mensaje)
+    async addMessage(message){
+        try{
+            return await this.db.from(this.table).insert(message)
+        }catch(err){
+            throw err
+        }
+
     }
 }
 

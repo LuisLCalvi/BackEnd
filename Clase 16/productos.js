@@ -2,17 +2,28 @@ const { Contenedor } = require("./contenedor")
 const {optionsMariaDB} = require ("./mariaDB");
 
 class Productos {
-    constructor(){
-        this.bd = new Contenedor("roductos", optionsMariaDB)
+    constructor(table, knex){
+        this.db = require("knex")(knex);
+        this.table = table;
     }
 
-    async getAll(){
-        return await this.bd.getAll();
+    async addProduct(prod){
+        try {
+            return await this.db(this.table).insert(prod)
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async save(producto){
-        return await this.bd.save (producto);
-    }
+    async getAll() {
+        try {
+            return await this.db.from(this.table).select("*")
+    
+        } catch (error) {
+            throw error;
+        }
+    
+    }    
 }
 
 module.exports = { Productos };
