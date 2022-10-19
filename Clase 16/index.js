@@ -4,15 +4,13 @@ const {Mensajes} = require("./mensajes");
 const {optionsMariaDB} = require("./mariaDB")
 const {optionSqlite} = require ("./DB/ecommerce");
 const { Tablas } = require("./tablas");
+const { Server: IOServer } = require("socket.io");
+const { Server: HttpServer } = require("http");
 const router = express.Router()
+const PORT = 8080;
 const app = express();
-
-const {Server: IOServer} = require("socket.io")
-const {Server: HttpServer} = require("http");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-const PORT = 8080;
-
 
 
 let prod = new Contenedor("productos", optionsMariaDB)
@@ -47,7 +45,7 @@ io.on("connection", async (socket)=>{
 })
 
 
-app.use(express.static("./public"));
+app.use(express.static("./public/public"));
 
 
 
