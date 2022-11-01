@@ -8,6 +8,7 @@ const carrito = new Carrito();
 router.post("/", async (req, res) => {
 	const carritoCreado = await carrito.crearCarrito();
 	res.send(carritoCreado);
+	console.log("carrito creado")
 });
 
 router.delete("/:id", async (req, res) => {

@@ -14,7 +14,7 @@ export default class Producto{
         const newProduct = new ProductoModel(prod);
         return await newProduct.save();
     } catch(err){
-        console.log(err)
+        return {error: "No se pudo crear el producto"}
     }
     }
 
@@ -23,7 +23,7 @@ export default class Producto{
             await this.mongodb(this.url);
             return await ProductoModel.findById(id)
         }catch (err){
-            console.log (err)
+            return {error: "No existe el producto"}
         }
     }
 
@@ -32,14 +32,7 @@ export default class Producto{
             await this.mongodb(this.url)
             return await ProductoModel.find()
         }catch (err){
-            console.log (err)
-        }
-    }
-
-    async save(prod){
-
-        try{}catch (err){
-            console.log (err)
+            return {error: "No se pudeden visualizar los productos, no existen"}
         }
     }
 
@@ -49,7 +42,7 @@ export default class Producto{
             await this.mongodb(this.url);
             return await ProductoModel.findByIdAndUpdate(id, prod);
         }catch (err){
-            console.log (err)
+            return {error: "No se pudo actualizar el producto"}
         }
     }
 
@@ -58,7 +51,7 @@ export default class Producto{
             await this.mongodb(this.url);
             return await ProductoModel.findByIdAndDelete(id);
         }catch (err){
-            console.log (err)
+            return {error: "No se pudo eliminar el producto, no existe"}
         }
     }
 }

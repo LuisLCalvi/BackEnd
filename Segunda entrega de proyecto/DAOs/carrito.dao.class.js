@@ -17,7 +17,7 @@ export default class Carrito{
 			return await newCart.save();
 
 		}catch(err){
-			console.log(err);
+			return { error: "No se pudo crear el carrito" }
 			
 		}
 	}
@@ -27,7 +27,7 @@ export default class Carrito{
 			await this.mongodb(this.ulr);
 			return await CarritoModel.findById(id)
         }catch(error){
-            console.log(error)}
+            return {error: "No existen carritos para visualizar"}}
 }
 
 async listarAll(){
@@ -35,7 +35,7 @@ async listarAll(){
         await this.mongodb(this.url);
         return await CarritoModel.find();
     }catch(err){
-        console.log(err)
+        return {error: "No existen carritos para visualizar"}
     }
 }
 
@@ -44,41 +44,33 @@ async borrar(id){
         await this.mongodb(this.url);
         return await CarritoModel.findByIdAndDelete(id);
     }catch (err){
-        console.log (err)
+        return {error: "No se pudo eliminar el carrito"}
     }
 }
 
-async deleteProduct (id, prodId) {
+async borrarProd(idProd, idCarrito){
     try{
-        const carts = await this.listarAll()
-        const cartIndex = carts.findIndex((e) => e.id == id)
-
-        if (cartIndex >= 0){
-            const productInCart = carts[cartIndex].productos
-            const prodToDeleteIndex = productInCart.findIndex((e) => e.id == prodId)
-
-            if (prodToDeleteIndex >= 0){
-                productInCart.splice(prodToDeleteIndex, 1)
-                await this.collection.updateOne(
-                    {id: id},
-                    {
-                        $set: { productos: productInCart },
-
-
-                    }
-                )
-                    return true
-                
-            }
-            else { return false
-            }
-        
-
-        }else { return false}
+        await this.mongodb(this.url);
+        const prod = await this.producto.getById(idProd);
+        return await CarritoModel.findByIdAndUpdate(idCarrito, { $pull: {productos: prod}})
     }catch (err){
-        console.log(err)
+        return {error: "No se pudo eliminar el producto"}
     }
 }
+
+async listarProd(id){
+    const carProd = await this.listar(id);
+    return carProd.productos;
+}
+
+
+async guardarProductoEnCarrito(idProd, idCarrito){
+    await this.mongodb(this.url);
+    const prod = await this.producto.getById(idProd);
+    return await CarritoModel.findByIdAndUpdate({_id: idCarrito }, {$push: {productos: prod}});
+}
+
+
 
 
 
