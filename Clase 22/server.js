@@ -1,7 +1,5 @@
 const express = require("express")
 const prodRouter = require("./router/productos.router");
-const ProductoModel = require ("./models/productos.models")
-const messageModel = require ("./models/mensaje.models")
 const Producto = require ('./DAOs/productos.daos');
 const Message = require ('./DAOs/mensajes.daos')
 const { faker } = require("@faker-js/faker");

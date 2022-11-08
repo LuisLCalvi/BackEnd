@@ -53,6 +53,15 @@ const util = require ("util")
         }
     }
 
+    async addMessage(message){
+        try{
+            return await this.url.from(this.table).insert(message)
+        }catch(err){
+            throw err
+        }
+
+    }
+
     async normalize(){
         let messages = {messages: await this.getAll()};
         const authorSchema = new schema.Entity(
