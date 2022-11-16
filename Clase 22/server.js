@@ -3,6 +3,12 @@ const prodRouter = require("./router/productos.router");
 const Producto = require ('./DAOs/productos.daos');
 const Message = require ('./DAOs/mensajes.daos')
 const { faker } = require("@faker-js/faker");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+
+
+const showProd = require("./router/home")
+const newSession = require("./router/newConnect")
 
 const router = express.Router();
 const app = express();
@@ -55,7 +61,8 @@ app.use(express.static("./public"));
 app.set("socketio", io);
 
 
-app.use("/", router);
+app.use(showProd);
+app.use("/", newSession);
 app.use("/api/productos-test", prodRouter);
 
 router.use(express.json());

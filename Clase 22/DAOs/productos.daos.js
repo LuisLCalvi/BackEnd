@@ -14,6 +14,7 @@ const ProductoModel = require("../models/productos.models")
         try{
             await this.mongodb(this.url)
             const result = await prod.save();
+            console.log(result);
             return result;
         }catch (err){
             return err 
@@ -30,6 +31,7 @@ const ProductoModel = require("../models/productos.models")
                 thumbnail: prod.thumbnail
             })
             );
+            console.log(`newProduct ${newProduct}`)
             return await newProduct
         } catch(err){
             console.log("hubo un error")
