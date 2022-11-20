@@ -4,7 +4,6 @@ const path = require("path")
 const MongoStore = require ("connect-mongo")
 const config = require("../connection")
 
-// import webAuth from '../auth/index.js'
 const {webAuth} = require("../auth/index")
 const faker = require("@faker-js/faker")
 const Producto = require("../DAOs/productos.daos")
@@ -28,13 +27,13 @@ router.get('/', (req, res) => {
 })
 
 router.get('/home', webAuth, (req, res) => {
-    const username = req.session?.username
+    const username = req.session.username
     res.render(path.join(process.cwd(), '/views/home.ejs'),{username}) 
 })
 
 
 router.get('/login', (req, res) => {
-    const username = req.session?.username
+    const username = req.session.username
     if (username) {
         res.redirect('/home')
     } else {
@@ -43,7 +42,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    const username = req.session?.username
+    const username = req.session.username
     if (username) {
         req.session.destroy(err => {
             if (!err) {
@@ -66,6 +65,7 @@ router.post("/home", (req, res) => {
 router.post('/login', (req, res) => {
     console.log(req.session)
     console.log(req.body)
+    
 
     req.session.username = req.body.username
 
