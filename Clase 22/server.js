@@ -7,7 +7,6 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
 
-const showProd = require("./router/home")
 const newSession = require("./router/newConnect")
 
 const router = express.Router();
@@ -64,9 +63,10 @@ app.use(express.static("./public"));
 app.set("socketio", io);
 
 
-//app.use(showProd);
+
 app.use("/", newSession);
 app.use("/api/productos-test", prodRouter);
+
 app.get("/api/productos-test", (req,res)=>{
     let response = [];
     for (let index = 0; index <= 5; index++) {
