@@ -5,7 +5,7 @@ const MongoStore = require ("connect-mongo")
 const config = require("../connection")
 
 const {webAuth} = require("../auth/index")
-const faker = require("@faker-js/faker")
+const {faker} = require("@faker-js/faker")
 const Producto = require("../DAOs/productos.daos")
 
 const products = new Producto();

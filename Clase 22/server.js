@@ -54,6 +54,9 @@ io.on("connection", async (socket) => {
 
 })
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
@@ -61,14 +64,10 @@ app.use(express.static("./public"));
 app.set("socketio", io);
 
 
-app.use(showProd);
+//app.use(showProd);
 app.use("/", newSession);
 app.use("/api/productos-test", prodRouter);
-
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
-
-router.get("/api/productos-test", (req,res)=>{
+app.get("/api/productos-test", (req,res)=>{
     let response = [];
     for (let index = 0; index <= 5; index++) {
         response.push({
