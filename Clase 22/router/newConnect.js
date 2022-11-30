@@ -4,11 +4,14 @@ const path = require("path")
 const MongoStore = require ("connect-mongo")
 const config = require("../connection")
 const passport = require("../config/passportConfig")
-
 const {webAuth} = require("../auth/index")
 const { faker } = require("@faker-js/faker");
 const Producto = require("../DAOs/productos.daos")
+const {fork} = require("child_process")
 
+
+
+const forked = fork("child.js")
 const products = new Producto();
 
 const router = express.Router();
@@ -129,5 +132,33 @@ router.get("/api/productos-test", (req, res) => {
 
     res.render('test.ejs', { response: response })
 })
+
+//FORK
+
+router.get('/api/randoms', (req,res) =>{
+    const random = req.query.cant || 100000000
+    forked.send(random)
+    forked.on('message', (msg) => {res.end(msg)})
+})
+
+
+//INFORMACION DE PROCESS
+router.get("/info", (req, res) => {
+
+    const info = [{pid: process.pid,
+            version: process.version,
+            id:process.id,
+            memoria:process.memoryUsage().rss,
+            sistemaOperativo:process.platform,
+            carpeta:process.cwd(),
+            path:process.argv[0],
+            argumento:process.argv.slice(2)
+            }]
+            if(info)
+            res.status(200).json(info);
+            else{
+                res.status(404).send({ message: "No encontrado"})
+            }	
+    });
 
 module.exports = router;

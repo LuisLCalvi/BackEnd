@@ -3,9 +3,14 @@ const messageModel = require("../models/mensaje.models")
 const {normalize, schema} = require("normalizr")
 const util = require ("util")
 
+require('dotenv').config()
+
+const credencial = process.env.CREDENCIAL
+
+
  class Message{
     constructor(){
-        this.url = "mongodb+srv://LautaroC:Lautaro2022@cluster0.t0dklcq.mongodb.net/?retryWrites=true&w=majority";
+        this.url = credencial;
         this.mongodb = mongoose.connect
         this.mongodb(this.url)
     }
@@ -53,9 +58,9 @@ const util = require ("util")
         }
     }
 
-    async addMessage(message){
+    async addMessage(newMessage){
         try{
-            return await this.url.from(this.table).insert(message)
+            return await this.url.from(this.save).insert(newMessage)
         }catch(err){
             throw err
         }

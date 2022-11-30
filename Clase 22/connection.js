@@ -1,3 +1,10 @@
+
+require('dotenv').config()
+
+const credencial = process.env.CREDENCIAL
+
+
+
 module.exports = {
     PORT: process.env.PORT || 8080,
     mongoLocal: {
@@ -6,6 +13,6 @@ module.exports = {
     },
     mongoRemote: {
         cliente: 'mongodb',
-        cxnStr: 'mongodb+srv://LautaroC:Lautaro2022@cluster0.t0dklcq.mongodb.net/?retryWrites=true&w=majority',
+        cxnStr: credencial,
     }
 }

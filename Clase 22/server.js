@@ -5,7 +5,11 @@ const Message = require ('./DAOs/mensajes.daos')
 const { faker } = require("@faker-js/faker");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+require('dotenv').config()
 
+
+
+const PORT = process.env.PUERTO || 8181;
 
 const newSession = require("./router/newConnect")
 
@@ -16,7 +20,7 @@ const { Server: IOServer } = require("socket.io");
 const { Server: HttpServer } = require("http");
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-const PORT = 8080;
+
 
 const prod = new Producto();
 const msg = new Message();
@@ -29,9 +33,10 @@ io.on("connection", async (socket) => {
      socket.emit('messages', mensajes);
 
      socket.on("new-message", async (data) => {
-         await msg.createData(data);
-         console.log(data)
+        data.date = new Date().toLocaleDateString()
+        msg.createData(data);
 
+        console.log(data)
          io.sockets.emit("messages", mensajes);
      });
 
@@ -67,6 +72,7 @@ app.set("socketio", io);
 app.use("/", newSession);
 app.use("/api/productos-test", prodRouter);
 
+
 app.get("/api/productos-test", (req,res)=>{
     let response = [];
     for (let index = 0; index <= 5; index++) {
@@ -100,5 +106,12 @@ prodRouter.post("/", async (req, res) => {
     prod.createData(response)
     res.redirect("/api/productos-test");
 });
+
+
+
+
+
+
+
 
 httpServer.listen(PORT, () => console.log("servidor Levantado"));

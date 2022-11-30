@@ -1,6 +1,12 @@
+ 
+ require('dotenv').config()
+
+ const credencial = process.env.CREDENCIAL
+ 
+
  class Mensajes {
     constructor(table){
-        this.url = "mongodb+srv://LautaroC:Lautaro2022@cluster0.t0dklcq.mongodb.net/?retryWrites=true&w=majority";
+       this.url = credencial;
         this.mongodb = mongoose.connect
         this.mongodb(this.url)
         this.table = table;
