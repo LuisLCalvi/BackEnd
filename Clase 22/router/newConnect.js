@@ -8,6 +8,9 @@ const {webAuth} = require("../auth/index")
 const { faker } = require("@faker-js/faker");
 const Producto = require("../DAOs/productos.daos")
 const {fork} = require("child_process")
+const cluster = require("cluster")
+const http = require("http")
+const numCPUs = require("os").cpus().length
 
 
 
@@ -152,7 +155,9 @@ router.get("/info", (req, res) => {
             sistemaOperativo:process.platform,
             carpeta:process.cwd(),
             path:process.argv[0],
-            argumento:process.argv.slice(2)
+            argumento:process.argv.slice(2),
+
+            'numero De Procesadores': numCPUs
             }]
             if(info)
             res.status(200).json(info);

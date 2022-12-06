@@ -7,9 +7,10 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 require('dotenv').config()
 
+const parseArgs = require("minimist")
+const args = parseArgs(process.argv.slice(2), {default: {PORT: '8080'}})
+const PORT = args.PORT
 
-
-const PORT = process.env.PUERTO || 8181;
 
 const newSession = require("./router/newConnect")
 
