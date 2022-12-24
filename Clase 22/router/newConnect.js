@@ -12,6 +12,15 @@ const cluster = require("cluster")
 const http = require("http")
 const numCPUs = require("os").cpus().length
 
+const pino = require('pino');
+
+const loggerError = pino('error.log')
+const loggerWarn = pino('warning.log')
+const loggerInfo = pino()
+
+loggerError.level = 'error'
+loggerWarn.level = 'warn'
+loggerInfo.level = 'info'
 
 
 const forked = fork("child.js")
@@ -30,7 +39,16 @@ router.use(session({
         maxAge: 600000
     }
 }))
+router.use((req,res,next) =>{
+    loggerInfo.info(`Peticion entrante ------> Ruta: ${req.url}, metodo ${req.method}`)
+    next()
+})
 
+router.use('*', (req,res) =>{
+    loggerWarn.warn('ruta incorrecta');
+    loggerInfo.warn('ruta incorrecta');
+    res.send('ruta incorrecta');
+})
 router.get('/', (req, res) => {
     res.redirect('/login')
 })
@@ -54,6 +72,8 @@ router.get('/login', (req, res) => {
     if (username) {
         res.redirect('/home')
     } else {
+        loggerError.error('Se ha producido un error al ingresar datos')
+        loggerWarn.error('Se ha producido un error al ingresar datos')
         res.sendFile(path.join(process.cwd(), '/views/partials/login.html'))
     }
 })
@@ -162,6 +182,8 @@ router.get("/info", (req, res) => {
             if(info)
             res.status(200).json(info);
             else{
+                loggerError.error('Se ha producido un error al ingresar datos')
+        loggerWarn.error('Se ha producido un error al ingresar datos')
                 res.status(404).send({ message: "No encontrado"})
             }	
     });
