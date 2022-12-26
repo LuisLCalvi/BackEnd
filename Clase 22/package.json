@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node benchmarks.js",
-    "start": "0x server.js"
+    "test": "node benchmarks.js"
   },
   "keywords": [],
   "author": "",
