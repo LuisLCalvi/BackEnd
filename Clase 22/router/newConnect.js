@@ -44,18 +44,20 @@ router.use((req,res,next) =>{
     next()
 })
 
-router.use('*', (req,res) =>{
-    loggerWarn.warn('ruta incorrecta');
-    loggerInfo.warn('ruta incorrecta');
-    res.send('ruta incorrecta');
-})
+// router.use('*', (req,res) =>{
+//     loggerWarn.warn('ruta incorrecta');
+//     loggerInfo.warn('ruta incorrecta');
+//     res.send('ruta incorrecta');
+// })
 router.get('/', (req, res) => {
     res.redirect('/login')
 })
 
-router.get('/home', (req, res) => {
+router.get('/home', async (req, res) => {
     const username = req.session.username
-    res.render(path.join(process.cwd(), '/views/home.ejs'),{username}) 
+    const prods = await products.getAll()
+
+    res.render(path.join(process.cwd(), "/views/home.ejs"), { username, productos: prods, hayProducts: prods.length });
 })
 router.get('/register', (req, res)=>{
     res.sendFile(path.join(process.cwd(), ('/views/partials/register.html')))
@@ -87,13 +89,13 @@ router.get('/logout', (req, res) => {
     if (username) {
         req.session.destroy(err => {
             if (!err) {
-                res.render(path.join(process.cwd(), '/views/logout.ejs'), {username})
+                res.render(path.join(process.cwd(), '/views/logout.ejs'), { username })
             } else {
-                res.redirect('/')
+                res.redirect('/login')
             }
         })
     } else {
-        res.redirect('/')
+        res.redirect('/login')
     }
 });
 
@@ -114,34 +116,44 @@ router.post('/login',
         failureFlash: true
 
     }
-    )
+    ),
+    function (req, res) {
+        res.render("home", { username: req.body.username });
+    }
     )
 
 
 router.post("/home", (req, res) => {
 	const product = req.body;
 	products.put(product);
-    let response = [];
-    for (let index = 0; index <= 5; index++) {
-        response.push({
-            title: faker.commerce.product(),
-            price: faker.commerce.price(),
-            thumbnail: faker.image.image()
-        });
-    }
+    // let response = [];
+    // for (let index = 0; index <= 1; index++) {
+    //     response.push({
+    //         title: faker.commerce.product(),
+    //         price: faker.commerce.price(),
+    //         thumbnail: faker.image.image()
+    //     });
+    // }
 
 	res.redirect("/home");
 });
 
-router.post('/login', (req, res) => {
-    console.log(req.session)
-    console.log(req.body)
+router.post("/", (req, res) => {
+	const producto = req.body;
+	products.save(producto);
+    res.json(producto);
+});
+
+
+// router.post('/login', (req, res) => {
+//     console.log(req.session)
+//     console.log(req.body)
     
 
-    req.session.username = req.body.username
+//     req.session.username = req.body.username
 
-    res.redirect('/home')
-})
+//     res.redirect('/home')
+// })
 
 router.get("/api/productos-test", (req, res) => {
     let response = [];

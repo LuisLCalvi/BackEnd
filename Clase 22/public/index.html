@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,42 +14,12 @@
 <body>
 
     <div class="container mt-3">
-        <div class="jumbotron">
-            <h1>Ingrese sus Producto a traves del render</h1>
-            <br>
-
-            <form action="/home" id="formulario" method="POST" autocomplete="off">
-                <form onsubmit="addItem(this)">
-                <!-- Campo nombre del producto -->
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input id="name" class="form-control" type="text" name="title" required>
-                </div>
-
-                <!-- Campo precio del producto -->
-                <div class="form-group">
-                    <label for="precio">Precio</label>
-                    <input id="precio" class="form-control" type="number" step="0.01" name="price" required>
-                </div>
-
-                <!-- Campo url de la foto del producto -->
-                <div class="form-group">
-                    <label for="foto">Foto URL</label>
-                    <input id="foto" class="form-control" type="url" name="thumbnail">
-                </div>
-
-                <!-- Botón de envío -->
-                <button class="btn btn-success mt-3">Enviar</button>
-                </form>
-            </form>
-            <br>
-        <hr>
-        <br>
+       
+               
 
         <table class="table">
             <thead class="thead-dark">
                 <tr class="table-dark">
-                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Foto</th>
@@ -62,7 +31,7 @@
     </div>
     </div>
     <!-- CHAT -->
-    <div class="container mt-3">
+    <!-- <div class="container mt-3">
         <div class="jumbotron">
             <h1>Centro de Mensajes</h1>
             <label for="email">Email</label>
@@ -91,7 +60,7 @@
                 
             </form>
         </div>
-    </div>
+    </div> -->
 </body>
 
 </html>

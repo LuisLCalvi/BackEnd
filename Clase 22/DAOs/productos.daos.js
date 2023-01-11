@@ -29,8 +29,12 @@ const credencial = process.env.CREDENCIAL
         try{
             await this.mongodb(this.url)
             const newProduct = await this.save(new ProductoModel({
+                idProducto: prod.idProducto,
                 title: prod.title,
+                category: prod.category,
                 price: prod.price,
+                description: prod.description,
+
                 thumbnail: prod.thumbnail
             })
             );

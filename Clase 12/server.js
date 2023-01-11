@@ -1,5 +1,5 @@
 const express = require("express");
-const PORT = 8080;
+const PORT = 8181;
 const { Server: IOServer } = require("socket.io");
 const { Server: HttpServer } = require("http");
 
@@ -52,4 +52,4 @@ socket.emit("productos", productos);
 
 });
 
-httpServer.listen(8080, () => console.log("servidor Levantado"));
+httpServer.listen(8181, () => console.log("servidor Levantado"));

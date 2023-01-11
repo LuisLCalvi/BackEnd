@@ -4,7 +4,7 @@ const passport = require ("passport")
 const {Strategy} = require ("passport-local")
 const bCrypt = require("bcrypt")
 const usuarioModel = require("../models/usuario.models")
-
+const { sendEmail } = require("./mailConfig")
 
 const localStrategy = Strategy;
 
@@ -18,8 +18,12 @@ passport.use(
             usuarioModel.create(
               {
                 username,
-                password: createHash(password),
-                address: req.body.address,
+                    password: createHash(password),
+                    name: req.body.name,
+                    email: req.body.email,
+                    address: req.body.address,
+                    age: req.body.age,
+                    avatar: req.body.avatar,
               },
               (err, userWithId) => {
                 if (err) {
@@ -29,6 +33,9 @@ passport.use(
                 return done(null, userWithId);
               }
             );
+            await sendEmail(req.body.email, req.body.name);
+
+
             console.log("Este try de register");
           } catch (error) {
             console.warning({ error: "Usuario ya existe" });
