@@ -14,4 +14,13 @@ function apiAuth(req, res, next) {
     }
 }
 
-module.exports = {webAuth, apiAuth};
+function validAdmin(req, res, next) {
+	if (req.query.admin) {
+		next();
+	} else {
+		res.send("usted no tiene acceso");
+	}
+}
+
+
+module.exports = {webAuth, apiAuth, validAdmin};

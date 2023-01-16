@@ -6,7 +6,11 @@ const bCrypt = require("bcrypt")
 const usuarioModel = require("../models/usuario.models")
 const { sendEmail } = require("./mailConfig")
 
+
 const localStrategy = Strategy;
+
+
+
 
 passport.use(
     "register",
@@ -34,9 +38,6 @@ passport.use(
               }
             );
             await sendEmail(req.body.email, req.body.name);
-
-
-            console.log("Este try de register");
           } catch (error) {
             console.warning({ error: "Usuario ya existe" });
             return done(error, null);

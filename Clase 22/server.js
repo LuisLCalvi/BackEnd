@@ -5,6 +5,8 @@ const Message = require ('./DAOs/mensajes.daos')
 const { faker } = require("@faker-js/faker");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const carritoRouter = require('./router/carrito.router');
+
 
 
 
@@ -76,41 +78,12 @@ app.set("socketio", io);
 
 app.use("/", newSession);
 app.use("/api/productos-test", prodRouter);
+app.use("/api/carritos", carritoRouter);
+
+app.use("/api/productos", prodRouter);
 
 
-app.get("/api/productos-test", (req,res)=>{
-    let response = [];
-    for (let index = 0; index <= 5; index++) {
-        response.push({
-            title: faker.commerce.product(),
-            price: faker.commerce.price(),
-            thumbnail: faker.image.image()
-        });
-    }
 
-    res.render('test.ejs', {response: response})
-})
-router.post("/", (req, res) => {
-	const producto = req.body;
-	prod.createData(producto);
-    console.log(`Router ${producto}`);
-	res.redirect("/");
-});
-
-prodRouter.post("/", async (req, res) => {
-    let response = [];
-    for (let index = 0; index <= 5; index++) {
-        response.push({
-            id: 1,
-            title: faker.commerce.product(),
-            price: faker.commerce.price(),
-            thumbnail: faker.image.image()
-        });
-    }
-    console.log(response)
-    prod.createData(response)
-    res.redirect("/api/productos-test");
-});
 
 
 

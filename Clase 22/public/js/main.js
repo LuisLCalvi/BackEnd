@@ -66,3 +66,7 @@ function addItem() {
 
     socket.emit("newProduct", producto)
 }
+
+function addProduct(){
+    
+}

@@ -1,19 +1,13 @@
 const express = require ('express')
 const Producto = require ('../DAOs/productos.daos')
 
-
+const validAdmin = require('../controllers/auth/index')
 
 const router = express.Router();
 
 const product = new Producto();
 
-function validAdmin(req, res, next) {
-	if (req.query.admin) {
-		next();
-	} else {
-		res.send("usted no tiene acceso");
-	}
-}
+
 
 router.post("/", validAdmin, async (req, res) => {
 	console.log(req.body);

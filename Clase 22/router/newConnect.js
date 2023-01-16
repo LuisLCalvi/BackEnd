@@ -4,7 +4,7 @@ const path = require("path")
 const MongoStore = require ("connect-mongo")
 const config = require("../connection")
 const passport = require("../config/passportConfig")
-const {webAuth} = require("../auth/index")
+const {webAuth} = require("../controllers/auth/index")
 const { faker } = require("@faker-js/faker");
 const Producto = require("../DAOs/productos.daos")
 const {fork} = require("child_process")
@@ -175,6 +175,33 @@ router.get('/api/randoms', (req,res) =>{
     forked.send(random)
     forked.on('message', (msg) => {res.end(msg)})
 })
+
+
+
+
+router.post("/", (req, res) => {
+	const producto = req.body;
+	prod.createData(producto);
+    console.log(`Router ${producto}`);
+	res.redirect("/");
+});
+
+
+
+router.post("/", async (req, res) => {
+    let response = [];
+    for (let index = 0; index <= 5; index++) {
+        response.push({
+            id: 1,
+            title: faker.commerce.product(),
+            price: faker.commerce.price(),
+            thumbnail: faker.image.image()
+        });
+    }
+    console.log(response)
+    prod.createData(response)
+    res.redirect("/api/productos-test");
+});
 
 
 //INFORMACION DE PROCESS
