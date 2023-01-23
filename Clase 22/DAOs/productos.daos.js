@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose");
+const { P } = require("pino");
 const ProductoModel = require("../models/productos.models")
 
 require('dotenv').config()
@@ -77,6 +78,14 @@ async delete(id){
     }catch (error){
         console.log("ocurrio un error al querer eliminar el producto")
     }
+}
+
+
+static returnSingleton(){
+    if(!this.instance){
+        this.instance = new Producto()
+    }
+    return this.instance
 }
 
 }

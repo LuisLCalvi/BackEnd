@@ -1,10 +1,9 @@
 const express = require('express')
-const Cart = require('../DAOs/cart.daos')
-
+const myConnectionFactory = require('../DAOs/factory.daos')
 
 const router = express.Router();
-
-const carrito = new Cart();
+const connection = new myConnectionFactory()
+const carrito = connection
 
 router.post("/", async (req, res) => {
 	const carritoCreado = await carrito.crearCarrito();

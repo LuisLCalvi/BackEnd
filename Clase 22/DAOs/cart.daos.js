@@ -79,7 +79,12 @@ const credencial = process.env.CREDENCIAL
 
 	}
 
-
+	static returnSingleton(){
+		if(!this.instance){
+			this.instance = new Cart()
+		}
+		return this.instance
+	}
 
 
 }

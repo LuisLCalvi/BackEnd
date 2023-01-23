@@ -81,6 +81,14 @@ const credencial = process.env.CREDENCIAL
         return normalizado;
 
     }
+
+
+   static returnSingleton(){
+        if(!this.instance){
+            this.instance = new Message()
+        }
+        return this.instance
+    }
 }
 
 

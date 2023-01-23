@@ -1,11 +1,13 @@
 const express = require ('express')
-const Producto = require ('../DAOs/productos.daos')
+const myConnectionFactory = require('../factory.daos/')
 
 const validAdmin = require('../controllers/auth/index')
 
 const router = express.Router();
+const connection = new myConnectionFactory()
 
-const product = new Producto();
+
+const product = connection
 
 
 

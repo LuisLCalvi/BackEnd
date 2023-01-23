@@ -6,7 +6,6 @@ const config = require("../connection")
 const passport = require("../config/passportConfig")
 const {webAuth} = require("../controllers/auth/index")
 const { faker } = require("@faker-js/faker");
-const Producto = require("../DAOs/productos.daos")
 const {fork} = require("child_process")
 const cluster = require("cluster")
 const http = require("http")
@@ -18,13 +17,16 @@ const loggerError = pino('error.log')
 const loggerWarn = pino('warning.log')
 const loggerInfo = pino()
 
+const myConnectionFactory = require('../factory.daos/')
+
 loggerError.level = 'error'
 loggerWarn.level = 'warn'
 loggerInfo.level = 'info'
 
+const connection = new myConnectionFactory()
 
 const forked = fork("child.js")
-const products = new Producto();
+const products = connection
 
 const router = express.Router();
 router.use(passport.initialize());
