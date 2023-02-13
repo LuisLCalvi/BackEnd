@@ -6,6 +6,9 @@ const { faker } = require("@faker-js/faker");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const carritoRouter = require('./router/carrito.router');
+const { graphqlHTTP } = require("express-graphql");
+
+const routerGraphql = require ('./router/productos.graphql')
 
 
 
@@ -13,9 +16,12 @@ const carritoRouter = require('./router/carrito.router');
 
 require('dotenv').config()
 
+
 const parseArgs = require("minimist")
 const args = parseArgs(process.argv.slice(2), {default: {PORT: '8080'}})
 const PORT = args.PORT
+
+const {productSchema} = require('./models/producto.graph')
 
 
 const newSession = require("./router/newConnect")
@@ -83,6 +89,20 @@ app.use("/api/carritos", carritoRouter);
 app.use("/api/productos", prodRouter);
 
 
+app.use(
+    "/graphql/prod",
+    graphqlHTTP({
+      schema: productSchema,
+      rootValue: {
+        getProduct: routerGraphql.getProductByIdGraph,
+        getProducts: routerGraphql.getProductsGraph,
+        createProduct: routerGraphql.createProductGraph,
+        updateProduct: routerGraphql.updateProductGraph,
+        deleteProduct: routerGraphql.deleteProductGraph,
+      },
+      graphiql: true,
+    })
+  );
 
 
 
