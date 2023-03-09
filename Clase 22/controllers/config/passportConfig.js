@@ -3,7 +3,7 @@ const mongoose = require ("mongoose")
 const passport = require ("passport")
 const {Strategy} = require ("passport-local")
 const bCrypt = require("bcrypt")
-const usuarioModel = require("../models/usuario.models")
+const usuarioModel = require("../../models/usuario.models")
 const { sendEmail } = require("./mailConfig")
 
 

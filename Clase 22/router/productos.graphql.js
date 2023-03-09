@@ -1,7 +1,6 @@
 const express = require ('express')
-const myConnectionFactory = require('../factory.daos/')
+const myConnectionFactory = require('../DAOs/factory.daos')
 
-const validAdmin = require('../controllers/auth/index')
 
 const router = express.Router();
 const connection = new myConnectionFactory()

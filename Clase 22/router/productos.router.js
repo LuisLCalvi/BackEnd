@@ -1,13 +1,20 @@
 const express = require ('express')
-const myConnectionFactory = require('../factory.daos/')
+const myConnectionFactory = require('../DAOs/factory.daos')
 
-const validAdmin = require('../controllers/auth/index')
 
 const router = express.Router();
 const connection = new myConnectionFactory()
 
 
 const product = connection
+
+function validAdmin(req, res, next) {
+	if (req.query.admin) {
+		next();
+	} else {
+		res.send("usted no tiene acceso");
+	}
+}
 
 
 

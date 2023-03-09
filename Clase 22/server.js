@@ -12,8 +12,6 @@ const routerGraphql = require ('./router/productos.graphql')
 
 
 
-
-
 require('dotenv').config()
 
 

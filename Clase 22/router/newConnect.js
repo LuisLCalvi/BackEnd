@@ -3,7 +3,7 @@ const session = require("express-session")
 const path = require("path")
 const MongoStore = require ("connect-mongo")
 const config = require("../connection")
-const passport = require("../config/passportConfig")
+const passport = require("../controllers/config/passportConfig")
 const {webAuth} = require("../controllers/auth/index")
 const { faker } = require("@faker-js/faker");
 const {fork} = require("child_process")
@@ -17,7 +17,7 @@ const loggerError = pino('error.log')
 const loggerWarn = pino('warning.log')
 const loggerInfo = pino()
 
-const myConnectionFactory = require('../factory.daos/')
+const myConnectionFactory = require('../DAOs/factory.daos')
 
 loggerError.level = 'error'
 loggerWarn.level = 'warn'

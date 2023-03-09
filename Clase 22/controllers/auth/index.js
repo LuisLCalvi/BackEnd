@@ -14,13 +14,5 @@ function apiAuth(req, res, next) {
     }
 }
 
-function validAdmin(req, res, next) {
-	if (req.query.admin) {
-		next();
-	} else {
-		res.send("usted no tiene acceso");
-	}
-}
 
-
-module.exports = {webAuth, apiAuth, validAdmin};
+module.exports = {webAuth, apiAuth};
